@@ -11,11 +11,15 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 
 class ZipcodeController extends AbstractController
 {
-    public function __construct()
-    {
-        $this->serviceName = Zipcode::class;
-        $this->builder = ZipcodeBuilder::class;
-    }
+    /**
+     * @var String
+     */
+    protected $serviceName = Zipcode::class;
+
+    /**
+     * @var String
+     */
+    protected $builder = ZipcodeBuilder::class;
 
     /**
      * @Rest\Get("/zipcode")

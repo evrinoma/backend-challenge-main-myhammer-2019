@@ -12,11 +12,15 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 
 class JobController extends AbstractController
 {
-    public function __construct()
-    {
-        $this->serviceName = Job::class;
-        $this->builder = JobBuilder::class;
-    }
+    /**
+     * @var String
+     */
+    protected $serviceName = Job::class;
+
+    /**
+     * @var String
+     */
+    protected $builder = JobBuilder::class;
 
     /**
      * @Rest\Get("/job")

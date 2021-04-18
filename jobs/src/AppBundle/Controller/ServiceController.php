@@ -11,11 +11,15 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 
 class ServiceController extends AbstractController
 {
-    public function __construct()
-    {
-        $this->serviceName = Service::class;
-        $this->builder = ServiceBuilder::class;
-    }
+    /**
+     * @var String
+     */
+    protected $serviceName = Service::class;
+
+    /**
+     * @var String
+     */
+    protected $builder = ServiceBuilder::class;
 
     /**
      * @Rest\Get("/service")
