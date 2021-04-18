@@ -29,7 +29,7 @@ class Job implements EntityInterface
     /**
      * @ORM\Column(type="string", length=5, options={"fixed" = true})
      * @ORM\ManyToOne(targetEntity="App\Entity\Zipdcode")
-     * @ORM\JoinColumn(nullable=false, name="category_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=false, name="zipcode_id", referencedColumnName="id")
      * @Assert\Length(
      *      min = 5,
      *      max = 5,

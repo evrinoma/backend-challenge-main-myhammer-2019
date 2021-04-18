@@ -4,10 +4,11 @@ namespace AppBundle\DataFixtures;
 
 use AppBundle\Entity\Job;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use DateTime;
 
-class JobFixtures extends Fixture
+class JobFixtures extends Fixture implements OrderedFixtureInterface
 {
     /**
      * Load data fixtures with the passed EntityManager
@@ -25,5 +26,13 @@ class JobFixtures extends Fixture
         );
         $manager->persist($job);
         $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return [
+            ServiceFixtures::class,
+            ZipcodeFixtures::class
+        ];
     }
 }
