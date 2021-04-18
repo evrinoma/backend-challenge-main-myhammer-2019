@@ -19,15 +19,19 @@ class Job implements EntityInterface
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var Service
+     *
+     * @ORM\Column(name="service_id", type="integer")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Service")
      * @ORM\JoinColumn(nullable=false, name="service_id", referencedColumnName="id")
      * @Assert\NotBlank()
      */
-    private $service_id;
+    private $service;
 
     /**
-     * @ORM\Column(type="string", length=5, options={"fixed" = true})
+     * @var Zipcode
+     *
+     * @ORM\Column(name="zipcode_id", type="string", length=5, options={"fixed" = true})
      * @ORM\ManyToOne(targetEntity="App\Entity\Zipdcode")
      * @ORM\JoinColumn(nullable=false, name="zipcode_id", referencedColumnName="id")
      * @Assert\Length(
@@ -38,7 +42,7 @@ class Job implements EntityInterface
      * )
      * @Assert\NotBlank()
      */
-    private $zipcode_id;
+    private $zipCode;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -61,12 +65,12 @@ class Job implements EntityInterface
      * @ORM\Column(type="date")
      * @Assert\Date()
      */
-    private $date_to_be_done;
+    private $dateToBeDone;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $created_at;
+    private $createdAt;
 
     public function __construct(
         int $serviceId = null,
@@ -76,12 +80,12 @@ class Job implements EntityInterface
         \DateTimeInterface $dateToBeDone = null,
         String $id = null
     ) {
-        $this->service_id = $serviceId;
-        $this->zipcode_id = $zipcodeId;
-        $this->title = $title;
+        $this->service = $serviceId;
+        $this->zipCode = $zipcodeId;
+        $this->title      = $title;
         $this->description = $description;
-        $this->date_to_be_done = $dateToBeDone;
-        $this->created_at = new DateTime();
+        $this->dateToBeDone = $dateToBeDone;
+        $this->createdAt = new DateTime();
         $this->id = $id ?? $this->id;
     }
 
@@ -96,17 +100,17 @@ class Job implements EntityInterface
     /**
      * @return int|null
      */
-    public function getServiceId(): ?int
+    public function getService(): ?int
     {
-        return $this->service_id;
+        return $this->service;
     }
 
     /**
      * @return null|String
      */
-    public function getZipcodeId(): ?String
+    public function getZipCode(): ?String
     {
-        return $this->zipcode_id;
+        return $this->zipCode;
     }
 
     /**
@@ -130,7 +134,7 @@ class Job implements EntityInterface
      */
     public function getDateToBeDone(): ?\DateTimeInterface
     {
-        return $this->date_to_be_done;
+        return $this->dateToBeDone;
     }
 
     /**
@@ -138,6 +142,6 @@ class Job implements EntityInterface
      */
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 }
