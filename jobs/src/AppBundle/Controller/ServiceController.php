@@ -33,17 +33,20 @@ class ServiceController extends AbstractController
     /**
      * @Rest\Get("/service/{id}")
      *
-     * @param int id
+     * @param int $id
      * @throws NotFoundHttpException
      * @return View
      */
     public function getAction($id): View
     {
-        return parent::getAction($entity);
+        return parent::getAction($id);
     }
 
     /**
      * @Rest\Post("/service")
+     * @param Request $request
+     *
+     * @return View
      */
     public function postAction(Request $request): View
     {
