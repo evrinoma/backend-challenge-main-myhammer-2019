@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\Services;
 
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Tests\Functional\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class AbstractServicesTest extends WebTestCase
 {
