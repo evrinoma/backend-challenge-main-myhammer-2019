@@ -38,4 +38,4 @@ swiftmailer:
 
 doctrine:
     dbal:
-        dbname: 'test'
+        dbname: 'jobs'

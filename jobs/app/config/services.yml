@@ -36,27 +36,19 @@ services:
 
     entityManager:
         class: Doctrine\ORM\EntityManager
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getManager
 
     serviceRepository:
         class: Doctrine\ORM\EntityRepository
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getRepository
         arguments:
             - AppBundle:Service
 
     zipcodeRepository:
         class: Doctrine\ORM\EntityRepository
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getRepository
         arguments:
         - AppBundle:Zipcode
 
     jobRepository:
         class: Doctrine\ORM\EntityRepository
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getRepository
         arguments:
         - AppBundle:Job
 

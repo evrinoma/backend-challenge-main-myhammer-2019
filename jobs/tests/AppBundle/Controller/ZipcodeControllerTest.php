@@ -39,7 +39,7 @@ class ZipcodeControllerTest extends AbstractControllerTest
     {
         $this->client->request('GET', '/zipcode/1');
 
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testPostZipcodeRepeatedReturnsBadRequest()

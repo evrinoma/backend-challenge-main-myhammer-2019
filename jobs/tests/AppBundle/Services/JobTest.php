@@ -9,8 +9,6 @@ use AppBundle\Repository\JobRepository;
 use AppBundle\Services\Job;
 use AppBundle\Services\Service;
 use AppBundle\Services\Zipcode;
-use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Tests\Functional\WebTestCase;
 use DateTime;
 
 /**
@@ -235,9 +233,6 @@ class JobTest extends AbstractServicesTest
             ->with('01621');
         $this->entityManager
             ->expects($this->never())
-            ->method('merge');
-        $this->entityManager
-            ->expects($this->never())
             ->method('flush');
 
         $job = new Job(
@@ -265,10 +260,6 @@ class JobTest extends AbstractServicesTest
             ->method('find')
             ->will($this->returnValue(new ZipcodeEntity()))
             ->with('01621');
-        $this->entityManager
-            ->expects($this->once())
-            ->method('merge')
-            ->with($this->persistedEntity);
         $this->entityManager
             ->expects($this->once())
             ->method('flush');
