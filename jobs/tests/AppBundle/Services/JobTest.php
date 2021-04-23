@@ -76,10 +76,6 @@ class JobTest extends AbstractServicesTest
         );
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     * @expectedExceptionMessage zipcode_id: This value should have exactly 5 characters., title: The title must more than 4 characters
-     */
     public function testCreateJobWithInvalidDataThrowsBadRequestHttpException()
     {
         $this->service
@@ -101,19 +97,17 @@ class JobTest extends AbstractServicesTest
             $this->zipcode,
             $this->entityManager
         );
+        $this->expectExceptionMessage('zipCode: This value should have exactly 5 characters., title: The title must more than 4 characters');
+        $this->expectException(
         $job->create(new JobEntity(
             802031,
             '123',
             'Job',
             'description',
             new DateTime('2018-11-11')
-        ));
+        )));
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     * @expectedExceptionMessage Service '802031' was not found
-     */
     public function testCreateJobWithServiceNotFoundThrowsBadRequestHttpException()
     {
         $this->service
@@ -137,19 +131,17 @@ class JobTest extends AbstractServicesTest
             $this->zipcode,
             $this->entityManager
         );
+        $this->expectExceptionMessage('Service \'802031\' was not found');
+        $this->expectException(
         $job->create(new JobEntity(
             802031,
             '12345',
             'Job to be done',
             'description',
             new DateTime('2018-11-11')
-        ));
+        )));
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     * @expectedExceptionMessage Zipcode '12345' was not found
-     */
     public function testCreateJobWithZipcodeNotFoundThrowsBadRequestHttpException()
     {
         $this->service
@@ -174,13 +166,15 @@ class JobTest extends AbstractServicesTest
             $this->zipcode,
             $this->entityManager
         );
-        $job->create(new JobEntity(
+        $this->expectExceptionMessage('Zipcode \'12345\' was not found');
+        $this->expectException(
+            $job->create(new JobEntity(
             802031,
             '12345',
             'Job to be done',
             'description',
             new DateTime('2018-11-11')
-        ));
+        )));
     }
 
     public function testCreateJobWithValidJobReturnsPersistedJob()

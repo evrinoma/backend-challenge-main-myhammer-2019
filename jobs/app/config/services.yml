@@ -45,12 +45,12 @@ services:
     zipcodeRepository:
         class: Doctrine\ORM\EntityRepository
         arguments:
-        - AppBundle:Zipcode
+            - AppBundle:Zipcode
 
     jobRepository:
         class: Doctrine\ORM\EntityRepository
         arguments:
-        - AppBundle:Job
+            - AppBundle:Job
 
     AppBundle\Services\Service:
         class: AppBundle\Services\Service
