@@ -44,12 +44,11 @@ class ServiceController extends AbstractController
 
     /**
      * @Rest\Post("/service")
-     * @param Request $request
      *
      * @return View
      */
-    public function postAction(Request $request): View
+    public function postAction(): View
     {
-        return parent::postAction($request);
+        return parent::postAction();
     }
 }

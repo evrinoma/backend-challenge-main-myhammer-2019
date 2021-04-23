@@ -45,8 +45,8 @@ class ZipcodeController extends AbstractController
     /**
      * @Rest\Post("/zipcode")
      */
-    public function postAction(Request $request): View
+    public function postAction(): View
     {
-        return parent::postAction($request);
+        return parent::postAction();
     }
 }

@@ -4,14 +4,14 @@ namespace AppBundle\Controller;
 
 use AppBundle\Builder\Job as JobBuilder;
 use AppBundle\Services\Job;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use FOS\RestBundle\Controller\Annotations as Rest;
 
 class JobController extends AbstractController
 {
+//region SECTION: Fields
     /**
      * @var String
      */
@@ -21,17 +21,40 @@ class JobController extends AbstractController
      * @var String
      */
     protected $builder = JobBuilder::class;
+//endregion Fields
 
+//region SECTION: Public
+    /**
+     * @Rest\Post("/job")
+     */
+    public function postAction(): View
+    {
+        return parent::postAction();
+    }
+
+    /**
+     * @Rest\Put("/job/{id}")
+     *
+     * @param String $id
+     *
+     * @return View
+     */
+    public function putAction(string $id): View
+    {
+        return parent::putAction($id);
+    }
+//endregion Public
+
+//region SECTION: Getters/Setters
     /**
      * @Rest\Get("/job")
      *
-     * @param Request $request
      * @return View
      */
-    public function getAllFilteringAction(Request $request): View
+    public function getAllAction(): View
     {
         return new View(
-            $this->container->get($this->serviceName)->findAll($request->query->all()),
+            $this->container->get($this->serviceName)->findAll($this->request->query->all()),
             Response::HTTP_OK
         );
     }
@@ -40,31 +63,13 @@ class JobController extends AbstractController
      * @Rest\Get("/job/{id}")
      *
      * @param $id
-     * @throws NotFoundHttpException
+     *
      * @return View
+     * @throws NotFoundHttpException
      */
     public function getAction($id): View
     {
         return parent::getAction($id);
     }
-
-    /**
-     * @Rest\Post("/job")
-     */
-    public function postAction(Request $request): View
-    {
-        return parent::postAction($request);
-    }
-
-    /**
-     * @Rest\Put("/job/{id}")
-     *
-     * @param String $id
-     * @param Request $request
-     * @return View
-     */
-    public function putAction(String $id, Request $request): View
-    {
-        return parent::putAction($id, $request);
-    }
+//endregion Getters/Setters
 }
