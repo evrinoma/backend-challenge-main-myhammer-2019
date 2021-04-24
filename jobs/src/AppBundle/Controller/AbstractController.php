@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Builder\Job as JobBuilder;
+use AppBundle\Services\Job;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,6 +40,19 @@ abstract class AbstractController extends AbstractFOSRestController
     {
         $this->request = $requestStack->getCurrentRequest();
     }
+
+    public static function getSubscribedServices(): array
+    {
+        $services = parent::getSubscribedServices();
+        foreach (static::getListSubscribedServices() as $serviceClass)
+        {
+            $services[$serviceClass] = $serviceClass;
+        }
+
+        return $services;
+    }
+
+    abstract protected static function getListSubscribedServices():array;
 //endregion Constructor
 
 //region SECTION: Public

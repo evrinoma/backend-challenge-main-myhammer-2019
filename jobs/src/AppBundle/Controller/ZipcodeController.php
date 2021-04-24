@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Builder\Zipcode as ZipcodeBuilder;
 use AppBundle\Services\Zipcode;
 use FOS\RestBundle\View\View;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
@@ -20,6 +19,11 @@ class ZipcodeController extends AbstractController
      * @var String
      */
     protected $builder = ZipcodeBuilder::class;
+
+    protected static function getListSubscribedServices():array
+    {
+        return [Zipcode::class, ZipcodeBuilder::class];
+    }
 
     /**
      * @Rest\Get("/zipcode")

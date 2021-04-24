@@ -59,6 +59,11 @@ class JobController extends AbstractController
         );
     }
 
+    protected static function getListSubscribedServices():array
+    {
+        return [Job::class, JobBuilder::class];
+    }
+
     /**
      * @Rest\Get("/job/{id}")
      *
