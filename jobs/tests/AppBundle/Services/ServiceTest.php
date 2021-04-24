@@ -72,10 +72,6 @@ class ServiceTest extends AbstractServicesTest
         $this->assertEquals($this->defaultServiceEntity, $service->find(1));
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     * @expectedExceptionMessage name: This value should not be blank.
-     */
     public function testCreateWithInvalidServiceThrowsBadRequestHttpException()
     {
         $this->serviceRepository
@@ -89,13 +85,10 @@ class ServiceTest extends AbstractServicesTest
             ->method('flush');
 
         $service = new Service($this->serviceRepository, $this->entityManager);
-        $service->create(new ServiceEntity(1, ''));
+        $this->expectExceptionMessage('name: This value should not be blank.');
+        $this->expectException($service->create(new ServiceEntity(1, '')));
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     * @expectedExceptionMessage Resource '1' already exists
-     */
     public function testCreateWithDuplicatedServiceThrowsBadRequestHttpException()
     {
         $this->serviceRepository
@@ -111,7 +104,8 @@ class ServiceTest extends AbstractServicesTest
             ->method('flush');
 
         $service = new Service($this->serviceRepository, $this->entityManager);
-        $service->create($this->defaultServiceEntity);
+        $this->expectExceptionMessage('Resource \'1\' already exists');
+        $this->expectException($service->create($this->defaultServiceEntity));
     }
 
     public function testCreateWithValidServiceReturnsPersistedService()

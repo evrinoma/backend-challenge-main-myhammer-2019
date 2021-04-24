@@ -44,10 +44,6 @@ class ZipcodeTest extends AbstractServicesTest
         $this->assertEquals($this->defaultZipcodeEntity, $zipcode->find('01623'));
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     * @expectedExceptionMessage city: The city must have at least 5 characters
-     */
     public function testCreateZipcodeWithInvalidCityThrowsBadRequestHttpException()
     {
         $this->zipcodeRepository
@@ -61,13 +57,10 @@ class ZipcodeTest extends AbstractServicesTest
             ->method('flush');
 
         $zipcode = new Zipcode($this->zipcodeRepository, $this->entityManager);
-        $zipcode->create(new ZipcodeEntity('12345', 'ab'));
+        $this->expectExceptionMessage('city: The city must have at least 5 characters');
+        $this->expectException($zipcode->create(new ZipcodeEntity('12345', 'ab')));
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     * @expectedExceptionMessage id: This value should have exactly 5 characters.
-     */
     public function testCreateZipcodeWithInvalidIdThrowsBadRequestHttpException()
     {
         $this->zipcodeRepository
@@ -81,7 +74,8 @@ class ZipcodeTest extends AbstractServicesTest
             ->method('flush');
 
         $zipcode = new Zipcode($this->zipcodeRepository, $this->entityManager);
-        $zipcode->create(new ZipcodeEntity('123456', 'city'));
+        $this->expectExceptionMessage('id: This value should have exactly 5 characters.');
+        $this->expectException($zipcode->create(new ZipcodeEntity('123456', 'city')));
     }
 
     public function testCreateWithValidZipcodeReturnsPersistedZipcode()

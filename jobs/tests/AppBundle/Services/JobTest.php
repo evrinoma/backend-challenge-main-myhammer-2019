@@ -205,10 +205,6 @@ class JobTest extends AbstractServicesTest
         $job->create($this->defaultEntity);
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @expectedExceptionMessage The resource 'a1c59e8f-ca88-11e8-94bd-0242ac130005
-     */
     public function testUpdateJobWithNotFoundThrowsBadRequestHttpException()
     {
         $this->repository
@@ -235,7 +231,8 @@ class JobTest extends AbstractServicesTest
             $this->zipcode,
             $this->entityManager
         );
-        $job->update($this->persistedEntity);
+        $this->expectExceptionMessage('The resource \'a1c59e8f-ca88-11e8-94bd-0242ac130005\'');
+        $this->expectException($job->update($this->persistedEntity));
     }
 
     public function testUpdateJobValidReturnsPersistedJob()
