@@ -19,6 +19,25 @@ class JobRepository extends ServiceEntityRepository
         parent::__construct($registry, Job::class);
     }
 
+    public function findAllRanged(array $params)
+    {
+        $query = $this->createQueryBuilder('j')
+            ->where('j.createdAt BETWEEN DATE_SUB(CURRENT_TIMESTAMP(), 30, \'DAY\') AND CONCAT(CURRENT_DATE(), \' 23:59:59\')');
+
+        if (!empty($params['service'])) {
+            $query->andWhere('j.service = :service')
+                ->setParameter('service',$params['service']);
+        }
+
+        if (!empty($params['zipcode'])) {
+            $query->andWhere('j.zipcode = :zipcode')
+                ->setParameter('zipcode',$params['zipcode']);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+
 //    /**
 //     * @return Job[] Returns an array of Job objects
 //     */

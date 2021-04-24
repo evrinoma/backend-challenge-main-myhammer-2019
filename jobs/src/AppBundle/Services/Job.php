@@ -45,21 +45,7 @@ class Job extends AbstractService
      */
     public function findAll(array $params = []): array
     {
-        $sql = "SELECT * FROM job WHERE created_at BETWEEN NOW() - INTERVAL 30 DAY AND NOW()";
-        if (!empty($params['service'])) {
-            $sql .= ' AND service_id = ' . $params['service'];
-        }
-
-        if (!empty($params['zipcode'])) {
-            $sql .= ' AND zipcode_id = ' . $params['zipcode'];
-        }
-
-        $stmt = $this->entityManager
-            ->getConnection()
-            ->prepare($sql);
-        $stmt->execute();
-
-        return $stmt->fetchAll();
+        return $this->repository->findAllRanged($params);
     }
 
     /**
