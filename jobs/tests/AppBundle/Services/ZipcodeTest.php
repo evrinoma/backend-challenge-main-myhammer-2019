@@ -37,7 +37,7 @@ class ZipcodeTest extends AbstractServicesTest
         $this->zipcodeRepository
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue($this->defaultZipcodeEntity))
+            ->willReturn($this->defaultZipcodeEntity)
             ->with('01623');
 
         $zipcode = new Zipcode($this->zipcodeRepository, $this->entityManager);
@@ -83,7 +83,7 @@ class ZipcodeTest extends AbstractServicesTest
         $this->zipcodeRepository
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue(null))
+            ->willReturn(null)
             ->with('01623');
         $this->entityManager
             ->expects($this->once())

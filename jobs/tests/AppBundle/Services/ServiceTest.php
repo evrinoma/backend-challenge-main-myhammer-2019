@@ -37,7 +37,7 @@ class ServiceTest extends AbstractServicesTest
         $this->serviceRepository
             ->expects($this->once())
             ->method('findAll')
-            ->will($this->returnValue([]));
+            ->willReturn([]);
 
         $service = new Service($this->serviceRepository, $this->entityManager);
         $this->assertEmpty($service->findAll());
@@ -48,7 +48,7 @@ class ServiceTest extends AbstractServicesTest
         $this->serviceRepository
             ->expects($this->once())
             ->method('findAll')
-            ->will($this->returnValue([$this->defaultServiceEntity]));
+            ->willReturn([$this->defaultServiceEntity]);
 
         $service = new Service($this->serviceRepository, $this->entityManager);
         $this->assertEquals([$this->defaultServiceEntity], $service->findAll());
@@ -65,7 +65,7 @@ class ServiceTest extends AbstractServicesTest
         $this->serviceRepository
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue($this->defaultServiceEntity))
+            ->willReturn($this->defaultServiceEntity)
             ->with(1);
 
         $service = new Service($this->serviceRepository, $this->entityManager);
@@ -94,7 +94,7 @@ class ServiceTest extends AbstractServicesTest
         $this->serviceRepository
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue($this->defaultServiceEntity))
+            ->willReturn($this->defaultServiceEntity)
             ->with(1);
         $this->entityManager
             ->expects($this->never())
@@ -113,7 +113,7 @@ class ServiceTest extends AbstractServicesTest
         $this->serviceRepository
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue(null))
+            ->willReturn(null)
             ->with(1);
         $this->entityManager
             ->expects($this->once())

@@ -16,6 +16,7 @@ use DateTime;
  */
 class JobTest extends AbstractServicesTest
 {
+//region SECTION: Fields
     /**
      * @var JobRepository
      */
@@ -40,42 +41,9 @@ class JobTest extends AbstractServicesTest
      * @var JobEntity
      */
     private $persistedEntity;
+//endregion Fields
 
-    public function setUp()
-    {
-        parent::setUp();
-        $this->repository = $this->getMockBuilder(JobRepository::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['findAll', 'find'])
-            ->getMock();
-
-        $this->service = $this->getMockBuilder(Service::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['find'])
-            ->getMock();
-
-        $this->zipcode = $this->getMockBuilder(Zipcode::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['find'])
-            ->getMock();
-
-        $this->defaultEntity = new JobEntity(
-            802031,
-            '01621',
-            'Job to be done',
-            'description',
-            new DateTime('2018-11-11')
-        );
-        $this->persistedEntity = new JobEntity(
-            802031,
-            '01621',
-            'Job to be done',
-            'description',
-            new DateTime('2018-11-11'),
-            'a1c59e8f-ca88-11e8-94bd-0242ac130005'
-        );
-    }
-
+//region SECTION: Public
     public function testCreateJobWithInvalidDataThrowsBadRequestHttpException()
     {
         $this->service
@@ -99,13 +67,16 @@ class JobTest extends AbstractServicesTest
         );
         $this->expectExceptionMessage('zipCode: This value should have exactly 5 characters., title: The title must more than 4 characters');
         $this->expectException(
-        $job->create(new JobEntity(
-            802031,
-            '123',
-            'Job',
-            'description',
-            new DateTime('2018-11-11')
-        )));
+            $job->create(
+                new JobEntity(
+                    802031,
+                    '123',
+                    'Job',
+                    'description',
+                    new DateTime('2018-11-11')
+                )
+            )
+        );
     }
 
     public function testCreateJobWithServiceNotFoundThrowsBadRequestHttpException()
@@ -113,7 +84,7 @@ class JobTest extends AbstractServicesTest
         $this->service
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue(null))
+            ->willReturn(null)
             ->with(802031);
         $this->zipcode
             ->expects($this->never())
@@ -133,13 +104,16 @@ class JobTest extends AbstractServicesTest
         );
         $this->expectExceptionMessage('Service \'802031\' was not found');
         $this->expectException(
-        $job->create(new JobEntity(
-            802031,
-            '12345',
-            'Job to be done',
-            'description',
-            new DateTime('2018-11-11')
-        )));
+            $job->create(
+                new JobEntity(
+                    802031,
+                    '12345',
+                    'Job to be done',
+                    'description',
+                    new DateTime('2018-11-11')
+                )
+            )
+        );
     }
 
     public function testCreateJobWithZipcodeNotFoundThrowsBadRequestHttpException()
@@ -147,11 +121,11 @@ class JobTest extends AbstractServicesTest
         $this->service
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue(new ServiceEntity()))
+            ->willReturn(new ServiceEntity())
             ->with(802031);
         $this->zipcode
             ->method('find')
-            ->will($this->returnValue(null))
+            ->willReturn(null)
             ->with('12345');
         $this->entityManager
             ->expects($this->never())
@@ -168,13 +142,16 @@ class JobTest extends AbstractServicesTest
         );
         $this->expectExceptionMessage('Zipcode \'12345\' was not found');
         $this->expectException(
-            $job->create(new JobEntity(
-            802031,
-            '12345',
-            'Job to be done',
-            'description',
-            new DateTime('2018-11-11')
-        )));
+            $job->create(
+                new JobEntity(
+                    802031,
+                    '12345',
+                    'Job to be done',
+                    'description',
+                    new DateTime('2018-11-11')
+                )
+            )
+        );
     }
 
     public function testCreateJobWithValidJobReturnsPersistedJob()
@@ -182,11 +159,11 @@ class JobTest extends AbstractServicesTest
         $this->service
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue(new ServiceEntity()))
+            ->willReturn(new ServiceEntity())
             ->with(802031);
         $this->zipcode
             ->method('find')
-            ->will($this->returnValue(new ZipcodeEntity()))
+            ->willReturn(new ZipcodeEntity())
             ->with('01621');
         $this->entityManager
             ->expects($this->once())
@@ -210,16 +187,16 @@ class JobTest extends AbstractServicesTest
         $this->repository
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue(null))
+            ->willReturn(null)
             ->with('a1c59e8f-ca88-11e8-94bd-0242ac130005');
         $this->service
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue(new ServiceEntity()))
+            ->willReturn(new ServiceEntity())
             ->with(802031);
         $this->zipcode
             ->method('find')
-            ->will($this->returnValue(new ZipcodeEntity()))
+            ->willReturn(new ZipcodeEntity())
             ->with('01621');
         $this->entityManager
             ->expects($this->never())
@@ -240,16 +217,16 @@ class JobTest extends AbstractServicesTest
         $this->repository
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue($this->persistedEntity))
+            ->willReturn($this->persistedEntity)
             ->with('a1c59e8f-ca88-11e8-94bd-0242ac130005');
         $this->service
             ->expects($this->once())
             ->method('find')
-            ->will($this->returnValue(new ServiceEntity()))
+            ->willReturn(new ServiceEntity())
             ->with(802031);
         $this->zipcode
             ->method('find')
-            ->will($this->returnValue(new ZipcodeEntity()))
+            ->willReturn(new ZipcodeEntity())
             ->with('01621');
         $this->entityManager
             ->expects($this->once())
@@ -263,4 +240,42 @@ class JobTest extends AbstractServicesTest
         );
         $job->update($this->persistedEntity);
     }
+//endregion Public
+
+//region SECTION: Getters/Setters
+    public function setUp()
+    {
+        parent::setUp();
+        $this->repository = $this->getMockBuilder(JobRepository::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['findAll', 'find'])
+            ->getMock();
+
+        $this->service = $this->getMockBuilder(Service::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['find'])
+            ->getMock();
+
+        $this->zipcode = $this->getMockBuilder(Zipcode::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['find'])
+            ->getMock();
+
+        $this->defaultEntity   = new JobEntity(
+            802031,
+            '01621',
+            'Job to be done',
+            'description',
+            new DateTime('2018-11-11')
+        );
+        $this->persistedEntity = new JobEntity(
+            802031,
+            '01621',
+            'Job to be done',
+            'description',
+            new DateTime('2018-11-11'),
+            'a1c59e8f-ca88-11e8-94bd-0242ac130005'
+        );
+    }
+//endregion Getters/Setters
 }
