@@ -2,8 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Builder\Job as JobBuilder;
-use AppBundle\Services\Job;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,7 +57,7 @@ abstract class AbstractController extends AbstractFOSRestController
     /**
      * @return View
      */
-    public function postAction(): View
+    protected function postAction(): View
     {
         $parameters      = $this->request->request->all();
         $entity          = $this->builder::build($parameters);
@@ -76,7 +74,7 @@ abstract class AbstractController extends AbstractFOSRestController
      *
      * @return View
      */
-    public function putAction(string $id): View
+    protected function putAction(string $id): View
     {
         $params          = $this->request->request->all();
         $params['id']    = $id;
@@ -94,7 +92,7 @@ abstract class AbstractController extends AbstractFOSRestController
     /**
      * @return View
      */
-    public function getAllAction(): View
+    protected function getAllAction(): View
     {
         return new View(
             $this->container->get($this->serviceName)->findAll(),
@@ -107,7 +105,7 @@ abstract class AbstractController extends AbstractFOSRestController
      *
      * @return View
      */
-    public function getAction($id): View
+    protected function getAction($id): View
     {
         $entity = $this->container->get($this->serviceName)->find($id);
         if (!$entity) {
